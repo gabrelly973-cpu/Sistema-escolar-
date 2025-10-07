@@ -1,0 +1,101 @@
+import java.util.Scanner;
+
+public class SistemaEscolar {
+
+    public static void main(String[] args) {
+        // Objeto Scanner para receber a entrada do usuário
+        Scanner scanner = new Scanner(System.in);
+
+        // Array para armazenar as 8 notas anuais
+        double[] notas = new double[8];
+
+        System.out.println("--- Sistema de Cálculo de Médias Escolares ---");
+
+        // 1. Coleta das 8 Notas Anuais
+        // Vamos supor que as notas são dadas na ordem (Bimestre 1, Bimestre 2, ...)
+        for (int i = 0; i < 8; i++) {
+            boolean notaValida = false;
+            while (!notaValida) {
+                try {
+                    // O cálculo do bimestre é (i / 2) + 1
+                    // O cálculo da nota dentro do bimestre é (i % 2) + 1
+                    System.out.printf("Digite a Nota %d do Bimestre %d (ex: 8.5): ", (i % 2) + 1, (i / 2) + 1);
+                    String input = scanner.nextLine().replace(',', '.'); // Permite vírgula ou ponto
+                    notas[i] = Double.parseDouble(input);
+
+                    if (notas[i] >= 0 && notas[i] <= 10) {
+                        notaValida = true;
+                    } else {
+                        System.out.println("Erro: A nota deve ser um valor entre 0 e 10.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Erro: Entrada inválida. Por favor, digite um número.");
+                }
+            }
+        }
+
+        // --- 2. Cálculos das Médias ---
+
+        // Médias Bimestrais (Média de 2 notas)
+        // B1: notas[0], notas[1] | B2: notas[2], notas[3] | B3: notas[4], notas[5] | B4: notas[6], notas[7]
+        double mediaBimestral1 = (notas[0] + notas[1]) / 2.0;
+        double mediaBimestral2 = (notas[2] + notas[3]) / 2.0;
+        double mediaBimestral3 = (notas[4] + notas[5]) / 2.0;
+        double mediaBimestral4 = (notas[6] + notas[7]) / 2.0;
+
+        // Médias Semestrais (Média de 4 notas, ou 2 bimestres)
+        double mediaSemestral1 = (notas[0] + notas[1] + notas[2] + notas[3]) / 4.0;
+        double mediaSemestral2 = (notas[4] + notas[5] + notas[6] + notas[7]) / 4.0;
+        // Alternativamente, a média das médias bimestrais:
+        // double mediaSemestral1 = (mediaBimestral1 + mediaBimestral2) / 2.0;
+
+        // Média Final (Média de todas as 8 notas)
+        double somaTotal = 0;
+        for (double nota : notas) {
+            somaTotal += nota;
+        }
+        double mediaFinal = somaTotal / 8.0;
+        // Alternativamente, a média das médias semestrais:
+        // double mediaFinal = (mediaSemestral1 + mediaSemestral2) / 2.0;
+
+        // --- 3. Apresentação dos Resultados ---
+        
+        System.out.println("\n" + "=".repeat(45));
+        System.out.println(">>> RESULTADO FINAL DO ALUNO <<<");
+        System.out.println("=".repeat(45));
+
+        // Apresentação das Médias Bimestrais
+        System.out.println("\n--- MÉDIAS BIMESTRAIS ---");
+        // Formata para ter duas casas decimais
+        System.out.printf("Média do 1º Bimestre: %.2f\n", mediaBimestral1);
+        System.out.printf("Média do 2º Bimestre: %.2f\n", mediaBimestral2);
+        System.out.printf("Média do 3º Bimestre: %.2f\n", mediaBimestral3);
+        System.out.printf("Média do 4º Bimestre: %.2f\n", mediaBimestral4);
+
+        // Apresentação das Médias Semestrais
+        System.out.println("\n--- MÉDIAS SEMESTRAIS ---");
+        System.out.printf("Média do 1º Semestre (B1 e B2): %.2f\n", mediaSemestral1);
+        System.out.printf("Média do 2º Semestre (B3 e B4): %.2f\n", mediaSemestral2);
+
+        // Apresentação da Média Final
+        System.out.println("\n--- MÉDIA FINAL ANUAL ---");
+        System.out.printf("MÉDIA FINAL: %.2f\n", mediaFinal);
+        
+        // Exemplo de Status do Aluno (Critério: Média Final >= 7.0)
+        String status;
+        if (mediaFinal >= 7.0) {
+            status = "APROVADO";
+        } else if (mediaFinal >= 5.0) {
+            status = "RECUPERAÇÃO";
+        } else {
+            status = "REPROVADO";
+        }
+        
+        System.out.println("\n" + "-".repeat(45));
+        System.out.printf("SITUAÇÃO DO ALUNO: %s\n", status);
+        System.out.println("-".repeat(45));
+
+        // Fecha o scanner
+        scanner.close();
+    }
+}
