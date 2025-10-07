@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+public class ConversorTemperatura {
+
+    public static void main(String[] args) {
+        // Objeto Scanner para ler a entrada do usuário
+        Scanner scanner = new Scanner(System.in);
+
+        // --- 1. Solicitar a entrada do usuário ---
+        System.out.println("--- Conversor de Temperatura ---");
+        System.out.print("Digite a temperatura em Celsius (°C): ");
+
+        // Variável para armazenar a temperatura em Celsius
+        // Usamos double para permitir números decimais na temperatura
+        double celsius;
+
+        // Bloco try-catch para garantir que a entrada seja um número válido
+        try {
+            celsius = scanner.nextDouble();
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("\nErro: Entrada inválida. Por favor, digite um valor numérico.");
+            scanner.close();
+            return; // Encerra o programa em caso de erro
+        }
+
+        // Fecha o objeto Scanner após a leitura
+        scanner.close();
+
+        // --- 2. Realizar os cálculos de conversão ---
+
+        // Fórmula para Fahrenheit: F = (C * 9/5) + 32
+        // É importante usar 9.0/5.0 ou 9/5.0 para garantir a divisão de ponto flutuante
+        double fahrenheit = (celsius * 9.0 / 5.0) + 32;
+
+        // Fórmula para Kelvin: K = C + 273.15
+        double kelvin = celsius + 273.15;
+
+        // --- 3. Exibir os resultados ---
+
+        System.out.println("\n--- Resultados da Conversão ---");
+
+        // Exibe a temperatura original em Celsius
+        // Usando %.2f para formatar com duas casas decimais
+        System.out.printf("Temperatura Original (Celsius): %.2f °C%n", celsius);
+
+        // Exibe a temperatura convertida para Fahrenheit
+        System.out.printf("Convertido para Fahrenheit:   %.2f °F%n", fahrenheit);
+
+        // Exibe a temperatura convertida para Kelvin
+        System.out.printf("Convertido para Kelvin:       %.2f K%n", kelvin);
+
+        System.out.println("--------------------------------");
+    }
+}
